@@ -379,11 +379,11 @@
 
         <!-- Q1 -->
         <div class="screen active" id="q1">
-          <div class="q-eyebrow">Question 1 of 3</div>
+          <div class="q-eyebrow">Question 1</div>
           <div class="q-text">Is this date already on the meal program's recurring schedule?</div>
           <div class="q-hint">Check the Schedule Planner calendar. If the date shows a teal chip, it's on the schedule.</div>
           <div class="choices">
-            <button class="choice" onclick="go('q2')">
+            <button class="choice" onclick="go('q2a')">
               <div class="choice-pip pip-yes">✅</div>
               <div>
                 <div class="choice-main">Yes — the date is on the schedule</div>
@@ -400,12 +400,36 @@
           </div>
         </div>
 
-        <!-- Q2 -->
-        <div class="screen" id="q2">
+        <!-- Q2a -->
+        <div class="screen" id="q2a">
           <button class="back-link" onclick="back()">← Back</button>
-          <div class="q-eyebrow">Question 2 of 3</div>
-          <div class="q-text">Does this GO need any changes from the program's settings?</div>
-          <div class="q-hint">Override at the GO level for one-offs: cutoff time, delivery address, subsidy amount, menu selection.</div>
+          <div class="q-eyebrow">Question 2</div>
+          <div class="q-text">Is this GO intended for a specific subset of users only?</div>
+          <div class="q-hint">For example: an exec lunch, a team event, or a new hire cohort — not the full enrolled user base.</div>
+          <div class="choices">
+            <button class="choice" onclick="go('result-adhoc')">
+              <div class="choice-pip pip-no">⚡</div>
+              <div>
+                <div class="choice-main">Yes — specific people only</div>
+                <div class="choice-sub">Create a Custom Adhoc GO. It coexists alongside the recurring GO on this date without affecting it.</div>
+              </div>
+            </button>
+            <button class="choice" onclick="go('q2b')">
+              <div class="choice-pip pip-neu">👥</div>
+              <div>
+                <div class="choice-main">No — all enrolled users</div>
+                <div class="choice-sub">Continue to the next question about settings.</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Q2b -->
+        <div class="screen" id="q2b">
+          <button class="back-link" onclick="back()">← Back</button>
+          <div class="q-eyebrow">Question 3</div>
+          <div class="q-text">Does this GO need any setting changes from the program defaults?</div>
+          <div class="q-hint">Override for this date only: cutoff time, delivery address, subsidy amount, or menus.</div>
           <div class="choices">
             <button class="choice" onclick="go('result-recurring')">
               <div class="choice-pip pip-neu">🔄</div>
@@ -417,7 +441,7 @@
             <button class="choice" onclick="go('result-custom')">
               <div class="choice-pip pip-yes">✏️</div>
               <div>
-                <div class="choice-main">Yes — I need to change settings for this specific date</div>
+                <div class="choice-main">Yes — I need to change one or more settings for this date</div>
                 <div class="choice-sub">Open the GO and override the fields that need to change. Program defaults stay intact for all other dates.</div>
               </div>
             </button>
@@ -427,22 +451,22 @@
         <!-- Q3 -->
         <div class="screen" id="q3">
           <button class="back-link" onclick="back()">← Back</button>
-          <div class="q-eyebrow">Question 2 of 3</div>
-          <div class="q-text">Is this an extra service day for the whole program — same settings, all enrolled users?</div>
-          <div class="q-hint">If you need specific users only, different settings, or a separate billing path, it should be a Custom Adhoc GO instead.</div>
+          <div class="q-eyebrow">Question 2</div>
+          <div class="q-text">Is this for specific users only, or does it need a separate billing path?</div>
+          <div class="q-hint">If it's for everyone enrolled in the program and bills through the same payment method, use Added Day GO.</div>
           <div class="choices">
             <button class="choice" onclick="go('result-added')">
               <div class="choice-pip pip-yes">📅</div>
               <div>
-                <div class="choice-main">Yes — same settings, all enrolled users</div>
-                <div class="choice-sub">A makeup day, an all-hands day, or any extra day that fits the program's rhythm and setup.</div>
+                <div class="choice-main">No — all enrolled users, same billing</div>
+                <div class="choice-sub">A makeup day, an extra service day — everyone gets access, bills the same way as the rest of the program.</div>
               </div>
             </button>
             <button class="choice" onclick="go('result-adhoc')">
               <div class="choice-pip pip-no">⚡</div>
               <div>
-                <div class="choice-main">No — specific users, different settings, or separate billing</div>
-                <div class="choice-sub">An exec lunch, a new hire cohort, a department event, or anything that needs its own configuration.</div>
+                <div class="choice-main">Yes — specific users, or a different billing path</div>
+                <div class="choice-sub">An exec lunch, a new hire cohort, a department event, or any GO that needs its own user list or billing.</div>
               </div>
             </button>
           </div>
@@ -464,19 +488,23 @@
             <div class="ex-icon">☀️</div>
             <div class="ex-body"><strong>Daily breakfast program</strong>A 200-person office gets breakfast every weekday. Monday through Friday, GOs generate automatically for all enrolled users. The CSM just ensures menus are posted.</div>
           </div>
+          <div class="example" style="background:#fffbeb; border:1px solid #fde68a;">
+            <div class="ex-icon">💡</div>
+            <div class="ex-body"><strong>Need a separate event for specific people today?</strong>You can also create a Custom Adhoc GO on this same date — it lives alongside the recurring GO without affecting it. Restart the wizard and choose "specific users only" at Question 2.</div>
+          </div>
           <div class="result-footer">
             <button class="btn-ghost"   onclick="restart()">Start over</button>
             <button class="btn-primary" onclick="scrollRef()">See all GO types ↓</button>
           </div>
         </div>
 
-        <!-- Result: Custom GO -->
+        <!-- Result: Override GO -->
         <div class="screen" id="result-custom">
           <div class="result-stripe stripe-custom"></div>
           <button class="back-link" onclick="back()">← Back</button>
-          <div class="result-badge badge-custom">✏️ Override at the GO level</div>
-          <div class="result-title">Custom GO</div>
-          <div class="result-desc">The GO auto-generates from the schedule, but you override specific settings for this date only. Open the Schedule Planner, select the date, and edit the fields that need to change. Program defaults stay intact for all other dates.</div>
+          <div class="result-badge badge-custom">✏️ Override settings for this date</div>
+          <div class="result-title">Override GO</div>
+          <div class="result-desc">The GO auto-generates from the schedule, but you override specific settings for this date only. Open the Schedule Planner, select the date, and edit the fields that need to change. All enrolled users still have access. Program defaults stay intact for all other dates.</div>
           <div class="ex-label">Real-world examples</div>
           <div class="example">
             <div class="ex-icon">👨‍🍳</div>
@@ -508,6 +536,10 @@
             <div class="ex-icon">🗓️</div>
             <div class="ex-body"><strong>Holiday makeup day</strong>Monday was a public holiday so the office was closed. The CSM adds the following Wednesday as a makeup service day. Same settings, all enrolled users — it fits the program's rhythm exactly.</div>
           </div>
+          <div class="example" style="background:#fffbeb; border:1px solid #fde68a;">
+            <div class="ex-icon">✏️</div>
+            <div class="ex-body"><strong>Need to adjust a setting after adding the date?</strong>Once the day is on the schedule, you can override individual fields — cutoff time, subsidy, delivery address — directly on the GO. Same mechanism as Override GO; no need to create a Custom Adhoc GO just for a settings change.</div>
+          </div>
           <div class="result-footer">
             <button class="btn-ghost"   onclick="restart()">Start over</button>
             <button class="btn-primary" onclick="scrollRef()">See all GO types ↓</button>
@@ -520,7 +552,7 @@
           <button class="back-link" onclick="back()">← Back</button>
           <div class="result-badge badge-adhoc">⚡ Create a Custom Adhoc GO</div>
           <div class="result-title">Custom Adhoc GO</div>
-          <div class="result-desc">Create a Custom Adhoc GO from the Schedule Planner. Unlike an Added Day, you control exactly who gets access — a specific subset of enrolled users. All settings are configurable independently, and it can carry its own billing path. It lives within a meal program but is fully self-contained.</div>
+          <div class="result-desc">Create a Custom Adhoc GO from the Schedule Planner. You control exactly who gets access — a specific subset of enrolled users — and all settings are configurable independently. It can carry its own billing path and can be created on any date, including dates that already have a recurring GO running alongside it.</div>
           <div class="ex-label">Real-world examples</div>
           <div class="example">
             <div class="ex-icon">💼</div>
@@ -550,8 +582,8 @@
   ══════════════════════════════════════ -->
   <div id="view-tree">
     <div class="tree-wrap">
-      <h2>Full Decision Tree — All GO Types</h2>
-      <p>Follow the branches from top to bottom. White nodes are questions; colored nodes are outcomes.</p>
+      <h2>GO Type Overview</h2>
+      <p>Follow the branches from top to bottom. White nodes are questions; colored nodes are outcomes. Note: Custom Adhoc GO is also reachable on scheduled dates — use the wizard for the full decision path.</p>
 
       <div class="tree-svg-container">
         <svg viewBox="0 0 920 400" width="920" height="400"
@@ -635,9 +667,9 @@
           <rect x="255" y="304" width="170" height="80" rx="10"
                 fill="#fff0f7" stroke="#ee356c" stroke-width="1.5" filter="url(#shadow)"/>
           <text x="340" y="328" text-anchor="middle" font-size="11" fill="#9d174d">✏️</text>
-          <text x="340" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">Custom GO</text>
-          <text x="340" y="360" text-anchor="middle" font-size="10.5" fill="#ee356c">Scheduled GO with</text>
-          <text x="340" y="374" text-anchor="middle" font-size="10.5" fill="#ee356c">overridden settings</text>
+          <text x="340" y="344" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">Override GO</text>
+          <text x="340" y="360" text-anchor="middle" font-size="10.5" fill="#ee356c">Scheduled; settings</text>
+          <text x="340" y="374" text-anchor="middle" font-size="10.5" fill="#ee356c">overridden for one date</text>
 
           <!-- Added Day GO: x=495, w=170, cx=580 -->
           <rect x="495" y="304" width="170" height="80" rx="10"
@@ -669,7 +701,7 @@
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:#fff0f7; border:1.5px solid #ee356c;"></div>
-          Custom GO
+          Override GO
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:#eff6ff; border:1.5px solid #3b82f6;"></div>
@@ -707,10 +739,10 @@
           <div class="ref-card-badge badge-custom">✏️ Settings overridden</div>
           <div class="pill pill-users">👥 All Users</div>
         </div>
-        <h3>Custom GO</h3>
-        <p>A scheduled GO with one or more settings overridden at the GO level for that specific date only. All enrolled users still have access.</p>
+        <h3>Override GO</h3>
+        <p>A scheduled GO with one or more settings overridden at the GO level for that specific date only. All enrolled users still have access. Program defaults stay intact for every other date.</p>
         <div class="ref-when">Best for</div>
-        <div class="ref-when-text">One-off changes within the program — different cutoff, delivery address, or subsidy for a specific date.</div>
+        <div class="ref-when-text">One-off changes within the schedule — different cutoff, delivery address, or subsidy for a single date, without touching the recurring program setup.</div>
       </div>
 
       <div class="ref-card" style="border-top: 3px solid var(--added-border);">
@@ -719,9 +751,9 @@
           <div class="pill pill-users">👥 All Users</div>
         </div>
         <h3>Added Day GO</h3>
-        <p>A date manually added to the meal program's schedule. Inherits the Client's Default Settings. All enrolled users get access — same as any other service day.</p>
+        <p>A date manually added to the meal program's schedule. Inherits program settings, all enrolled users get access, and it bills through the same payment method as the rest of the program. Settings can be overridden on the GO after the date is added.</p>
         <div class="ref-when">Best for</div>
-        <div class="ref-when-text">Makeup days or extra service days for the whole program — same settings, same users. Use Custom Adhoc GO if either of those need to differ.</div>
+        <div class="ref-when-text">Makeup days or extra service days for the whole program. Use Custom Adhoc GO if you need specific users or a separate billing path.</div>
       </div>
 
       <div class="ref-card" style="border-top: 3px solid var(--adhoc-border);">
@@ -730,9 +762,9 @@
           <div class="pill pill-subset">👤 Subset of Users</div>
         </div>
         <h3>Custom Adhoc GO</h3>
-        <p>A one-time GO scoped to a specific subset of enrolled users. All settings are configurable independently. Can carry its own billing path separate from the program.</p>
+        <p>A one-time GO scoped to a specific subset of enrolled users. All settings are configurable independently. Can carry its own billing path separate from the program. Can be created on any date — including dates that already have a recurring GO.</p>
         <div class="ref-when">Best for</div>
-        <div class="ref-when-text">Targeted events (exec lunches, new hire cohorts) or any off-schedule GO that needs different users, settings, or billing than the program provides.</div>
+        <div class="ref-when-text">Targeted events (exec lunches, new hire cohorts, department events) on any date — scheduled or not — where you need a specific user list or independent billing.</div>
       </div>
 
     </div>
@@ -741,8 +773,8 @@
       <div class="tip-icon">💡</div>
       <div>
         <strong>The off-schedule shortcut</strong>
-        <p>Adding a date that's not on the schedule? Ask: <em>same settings + all enrolled users?</em><br>
-        If yes → <em>Added Day GO</em>. If no (specific users, different settings, or separate billing) → <em>Custom Adhoc GO</em>.</p>
+        <p>Adding a date that's not on the schedule? Ask: <em>all enrolled users + same billing path?</em><br>
+        If yes → <em>Added Day GO</em> (settings can still be tweaked after). If no → <em>Custom Adhoc GO</em>.</p>
       </div>
     </div>
   </div>
@@ -784,7 +816,7 @@
   }
 
   function sync(id) {
-    const pct = { q1: 0, q2: 33, q3: 33,
+    const pct = { q1: 0, q2a: 33, q2b: 66, q3: 50,
       'result-recurring': 100, 'result-custom': 100,
       'result-added': 100, 'result-adhoc': 100 };
     document.getElementById('prog').style.width = (pct[id] ?? 0) + '%';
